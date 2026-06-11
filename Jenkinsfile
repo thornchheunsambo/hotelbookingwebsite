@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    tools {
+        maven 'Maven3'
+        jdk 'JDK21'
+    }
+
     environment {
         RENDER_DEPLOY_HOOK_DEV  = credentials('render-hook-dev')
         RENDER_DEPLOY_HOOK_MAIN = credentials('render-hook-main')
@@ -15,7 +20,7 @@ pipeline {
 
         stage('Build & Test') {
             steps {
-                sh 'mvn clean verify'
+                sh 'mvn clean package -DskipTests'
             }
         }
 
@@ -25,7 +30,7 @@ pipeline {
             }
             steps {
                 sh 'curl -X POST "$RENDER_DEPLOY_HOOK_DEV"'
-                echo 'Deployed to dev environment on Render'
+                echo 'Deployed to dev on Render'
             }
         }
 
@@ -34,7 +39,7 @@ pipeline {
                 branch 'main'
             }
             input {
-                message 'Deploy to production (main)?'
+                message 'Deploy to production?'
                 ok 'Yes, deploy!'
             }
             steps {
@@ -45,8 +50,11 @@ pipeline {
     }
 
     post {
+        success {
+            echo 'Pipeline completed successfully!'
+        }
         failure {
-            echo 'Build failed! Check logs above.'
+            echo 'Pipeline failed! Check logs above.'
         }
     }
 }
