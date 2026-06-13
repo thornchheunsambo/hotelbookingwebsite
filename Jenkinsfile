@@ -3,7 +3,6 @@ pipeline {
 
     tools {
         maven 'Maven3'
-        jdk 'JDK21'
     }
 
     environment {
@@ -38,11 +37,10 @@ pipeline {
             when {
                 branch 'main'
             }
-            input {
-                message 'Deploy to production?'
-                ok 'Yes, deploy!'
-            }
             steps {
+                timeout(time: 30, unit: 'MINUTES') {
+                    input message: 'Deploy to production?', ok: 'Yes, deploy!'
+                }
                 sh 'curl -X POST "$RENDER_DEPLOY_HOOK_MAIN"'
                 echo 'Deployed to production on Render'
             }
