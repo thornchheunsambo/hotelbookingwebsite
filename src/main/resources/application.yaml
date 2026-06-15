@@ -1,19 +1,16 @@
 spring:
   datasource:
-    url: ${DB_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url: jdbc:postgresql://localhost:5432/hotel_booking_db
+    username: postgres
+    password: 123
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: update
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-    show-sql: false
-
+    show-sql: true
 server:
-  port: ${PORT:8080}
-
+  port: 8080
 app:
   jwt:
-    secret: ${JWT_SECRET}
-    expiration-ms: ${JWT_EXPIRATION_MS:86400000}
+    secret: my-local-dev-secret-key-12345678901234567890
+    expiration-ms: 86400000
