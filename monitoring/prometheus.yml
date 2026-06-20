@@ -1,0 +1,17 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'hotelbooking-dev'
+    metrics_path: '/actuator/prometheus'
+    scheme: https
+    static_configs:
+      - targets: ['hotelbookingwebsitedev.onrender.com']
+    tls_config:
+      insecure_skip_verify: false
+
+  - job_name: 'hotelbooking-prod'
+    metrics_path: '/actuator/prometheus'
+    scheme: https
+    static_configs:
+      - targets: ['hotelbookingwebsite.onrender.com']
