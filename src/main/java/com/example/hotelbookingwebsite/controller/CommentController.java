@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/comments")
+@RequestMapping("/api/commentss")
 @RequiredArgsConstructor
 @Tag(name = "Comments", description = "Room comments / reviews endpoints")
 public class CommentController {
